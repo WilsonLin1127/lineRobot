@@ -31,12 +31,21 @@ def callback():
 # 學你說話
 @handler.add(MessageEvent, message=TextMessage)
 def echo(event):
-    
+    '''
     if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=event.message.text)
         )
-
+   '''
+    if re.search(r"(牛|厲害|強|猛)", event.message.text, re.DOTALL):
+        message = ImageSendMessage(
+            original_content_url='https://i.imgur.com/PPJOlv8.jpg',
+            preview_image_url='https://i.imgur.com/PPJOlv8.jpg'
+        )
+        line_bot_api.reply_message(event.reply_token, message)
+        return 0
+    
+    
 if __name__ == "__main__":
     app.run()
