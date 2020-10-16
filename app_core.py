@@ -29,16 +29,17 @@ def callback():
 
     return 'OK'
 
-# 學你說話
+# SEND MESSAGE
 @handler.add(MessageEvent, message=TextMessage)
 def echo(event):
-    '''
+    '''學你講話
     if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
         line_bot_api.reply_message(
             event.reply_token,
             TextSendMessage(text=event.message.text)
         )
     '''
+    #給一張圖
     if re.search(r"(牛|厲害|強|猛)", event.message.text, re.DOTALL):
         message = ImageSendMessage(
             original_content_url='https://i.imgur.com/PPJOlv8.jpg',
