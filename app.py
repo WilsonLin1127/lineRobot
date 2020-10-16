@@ -1,53 +1,42 @@
+from __future__ import unicode_literals
+import os
 from flask import Flask, request, abort
+from linebot import LineBotApi, WebhookHandler
+from linebot.exceptions import InvalidSignatureError
 
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-)
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 app = Flask(__name__)
 
+# LINE 聊天機器人的基本資料
 line_bot_api = LineBotApi('JxYa21gOuIjs09JFA+adfQ7KCQfm3X4AiBQ0whm6W0Hylj45WvmOLtfLRl04k3vSp4cYBpLAog7bKjgzqgCpxHdCsGdVlMZDy2W6vSDHOCfs0v6W5kG/zhsa7pAZCERvFfCMOgBxcyzMeLSq/QvKogdB04t89/1O/w1cDnyilFU=')
 handler = WebhookHandler('829c5c213b21463ee6dc1018d83eb522')
 
 
-@app.route("/")
-def home():
-    return 'home OK'
-
-# 監聽所有來自 /callback 的 Post Request
+# 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
 
-    # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
-    # handle webhook body
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
-        print("Invalid signature. Please check your channel access token/channel secret.")
         abort(400)
 
     return 'OK'
 
-
-# 處理訊息
+# 學你說話
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.message.text))
-
+def echo(event):
+    
+    if event.source.user_id != "Udeadbeefdeadbeefdeadbeefdeadbeef":
+        line_bot_api.reply_message(
+            event.reply_token,
+            TextSendMessage(text=event.message.text)
+        )
 
 if __name__ == "__main__":
     app.run()
-    
