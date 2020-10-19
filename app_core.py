@@ -10,8 +10,9 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSend
 app = Flask(__name__)
 
 # LINE 聊天機器人的基本資料
-line_bot_api = LineBotApi('testapi')
-handler = WebhookHandler('line rquest')
+line_bot_api = LineBotApi('JxYa21gOuIjs09JFA+adfQ7KCQfm3X4AiBQ0whm6W0Hylj45WvmOLtfLRl04k3vSp4cYBpLAog7bKjgzqgCpxHdCsGdVlMZDy2W6vSDHOCfs0v6W5kG/zhsa7pAZCERvFfCMOgBxcyzMeLSq/QvKogdB04t89/1O/w1cDnyilFU=
+')
+handler = WebhookHandler('829c5c213b21463ee6dc1018d83eb522')
 
 
 # 接收 LINE 的資訊
